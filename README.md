@@ -34,6 +34,3 @@
 
 <h2 align="center">Happy coding and building! 🎉</h2>
 
-<p align="center">
-    <img src="https://example.com/path/to/your/happy-coding-image.png" alt="Happy Coding" width="300">
-</p>
