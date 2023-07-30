@@ -10,6 +10,45 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .text          0x00000000        0x0 MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o
+ .data          0x00000000        0x0 MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o
+ .bss           0x00000000        0x0 MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o
+ .debug_line    0x00000000        0x0 MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o
+ .debug_str     0x00000000      0x138 MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o
+ .comment       0x00000000       0x31 MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o
+ .text          0x00000000        0x0 MCAL/GPIO/ATmega32_GPIO.o
+ .data          0x00000000        0x0 MCAL/GPIO/ATmega32_GPIO.o
+ .bss           0x00000000        0x0 MCAL/GPIO/ATmega32_GPIO.o
+ .text.MCAL_GPIO_Init
+                0x00000000      0x264 MCAL/GPIO/ATmega32_GPIO.o
+ .text.MCAL_GPIO_DeInit
+                0x00000000        0x8 MCAL/GPIO/ATmega32_GPIO.o
+ .text.MCAL_GPIO_ReadPin
+                0x00000000       0x86 MCAL/GPIO/ATmega32_GPIO.o
+ .text.MCAL_GPIO_ReadPort
+                0x00000000        0x6 MCAL/GPIO/ATmega32_GPIO.o
+ .text.MCAL_GPIO_WritePin
+                0x00000000       0xf2 MCAL/GPIO/ATmega32_GPIO.o
+ .text.MCAL_GPIO_WritePort
+                0x00000000        0x6 MCAL/GPIO/ATmega32_GPIO.o
+ .text.MCAL_GPIO_TogglePin
+                0x00000000       0xda MCAL/GPIO/ATmega32_GPIO.o
+ .debug_info    0x00000000      0x4e6 MCAL/GPIO/ATmega32_GPIO.o
+ .debug_abbrev  0x00000000      0x178 MCAL/GPIO/ATmega32_GPIO.o
+ .debug_loc     0x00000000      0x474 MCAL/GPIO/ATmega32_GPIO.o
+ .debug_aranges
+                0x00000000       0x50 MCAL/GPIO/ATmega32_GPIO.o
+ .debug_ranges  0x00000000       0x40 MCAL/GPIO/ATmega32_GPIO.o
+ .debug_line    0x00000000      0x4a2 MCAL/GPIO/ATmega32_GPIO.o
+ .debug_str     0x00000000      0x2fd MCAL/GPIO/ATmega32_GPIO.o
+ .comment       0x00000000       0x31 MCAL/GPIO/ATmega32_GPIO.o
+ .debug_frame   0x00000000       0x84 MCAL/GPIO/ATmega32_GPIO.o
+ .text          0x00000000        0x0 MCAL/Timer/ATmega32_TIMERS.o
+ .data          0x00000000        0x0 MCAL/Timer/ATmega32_TIMERS.o
+ .bss           0x00000000        0x0 MCAL/Timer/ATmega32_TIMERS.o
+ .debug_line    0x00000000        0x0 MCAL/Timer/ATmega32_TIMERS.o
+ .debug_str     0x00000000      0x11f MCAL/Timer/ATmega32_TIMERS.o
+ .comment       0x00000000       0x31 MCAL/Timer/ATmega32_TIMERS.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
@@ -43,6 +82,9 @@ Linker script and memory map
 
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega32a/avr5/crtatmega32a.o
 LOAD main.o
+LOAD MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o
+LOAD MCAL/GPIO/ATmega32_GPIO.o
+LOAD MCAL/Timer/ATmega32_TIMERS.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a
 END GROUP

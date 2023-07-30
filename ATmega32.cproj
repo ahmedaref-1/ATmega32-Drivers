@@ -123,6 +123,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\ATmega32_REGISTERS.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Infrastructure\COMMONMACROS.h">
       <SubType>compile</SubType>
     </Compile>
@@ -130,6 +133,24 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\External Interrupt\ATmega32_EXTERNALINTERRUPTS.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\External Interrupt\ATmega32_EXTERNALINTERRUPTS.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\GPIO\ATmega32_GPIO.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\GPIO\ATmega32_GPIO.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\Timer\ATmega32_TIMERS.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MCAL\Timer\ATmega32_TIMERS.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

@@ -1,0 +1,16 @@
+/*
+ * IncFile1.h
+ *
+ * Created: 7/30/2023 3:55:48 AM
+ *  Author: ahmed
+ */ 
+
+
+#ifndef INCFILE1.HATMEGA32_EXTERNALINTERRUPTS_H_
+#define INCFILE1.HATMEGA32_EXTERNALINTERRUPTS_H_
+
+
+
+
+
+#endif /* INCFILE1.HATMEGA32_EXTERNALINTERRUPTS_H_ */

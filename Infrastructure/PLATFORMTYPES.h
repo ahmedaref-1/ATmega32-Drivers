@@ -2,7 +2,7 @@
  * PLATFORMTYPES.h
  *
  * Created: 7/30/2023 2:23:57 AM
- *  Author: ahmed
+ *  Author: Ahmed Aref Omaira
  */ 
 
 
@@ -18,16 +18,16 @@
  *          Basic Data Types Typedefs             *
  **************************************************/
 /*********** Unsigned integer data types **********/
-typedef unsigned char               uint8;
-typedef unsigned short              uint16;
-typedef unsigned int                uint32;
-typedef unsigned long long int      uint64;
+typedef unsigned char               uint8_t;
+typedef unsigned short              uint16_t;
+typedef unsigned int                uint32_t;
+typedef unsigned long long int      uint64_t;
 
 /************ Signed integer data types ***********/
-typedef signed char                 sint8;
-typedef signed short                sint16;
-typedef signed int                  sint32;
-typedef signed long long int        sint64;
+typedef signed char                 sint8_t;
+typedef signed short                sint16_t;
+typedef signed int                  sint32_t;
+typedef signed long long int        sint64_t;
 
 /******* Volatile unsigned integer data types ******/
 typedef volatile unsigned char              vuint8_t;

@@ -46,7 +46,10 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../main.c
+../main.c \
+../MCAL/External\ Interrupt/ATmega32_EXTERNALINTERRUPTS.c \
+../MCAL/GPIO/ATmega32_GPIO.c \
+../MCAL/Timer/ATmega32_TIMERS.c
 
 
 PREPROCESSING_SRCS += 
@@ -56,16 +59,28 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-main.o
+main.o \
+MCAL/External\ Interrupt/ATmega32_EXTERNALINTERRUPTS.o \
+MCAL/GPIO/ATmega32_GPIO.o \
+MCAL/Timer/ATmega32_TIMERS.o
 
 OBJS_AS_ARGS +=  \
-main.o
+main.o \
+"MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.o" \
+MCAL/GPIO/ATmega32_GPIO.o \
+MCAL/Timer/ATmega32_TIMERS.o
 
 C_DEPS +=  \
-main.d
+main.d \
+MCAL/External\ Interrupt/ATmega32_EXTERNALINTERRUPTS.d \
+MCAL/GPIO/ATmega32_GPIO.d \
+MCAL/Timer/ATmega32_TIMERS.d
 
 C_DEPS_AS_ARGS +=  \
-main.d
+main.d \
+"MCAL/External Interrupt/ATmega32_EXTERNALINTERRUPTS.d" \
+MCAL/GPIO/ATmega32_GPIO.d \
+MCAL/Timer/ATmega32_TIMERS.d
 
 OUTPUT_FILE_PATH +=ATmega32.elf
 
@@ -82,6 +97,27 @@ LINKER_SCRIPT_DEP+=
 
 # AVR32/GNU C Compiler
 ./main.o: .././main.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../HAL" -I"../Infrastructure" -I"../MCAL"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+MCAL/External\ Interrupt/ATmega32_EXTERNALINTERRUPTS.o: ../MCAL/External\ Interrupt/ATmega32_EXTERNALINTERRUPTS.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../HAL" -I"../Infrastructure" -I"../MCAL"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+MCAL/GPIO/ATmega32_GPIO.o: ../MCAL/GPIO/ATmega32_GPIO.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../HAL" -I"../Infrastructure" -I"../MCAL"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+MCAL/Timer/ATmega32_TIMERS.o: ../MCAL/Timer/ATmega32_TIMERS.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include" -I"../HAL" -I"../Infrastructure" -I"../MCAL"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32a -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega32a" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

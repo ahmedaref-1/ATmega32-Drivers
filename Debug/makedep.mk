@@ -4,3 +4,9 @@
 
 main.c
 
+MCAL\External Interrupt\ATmega32_EXTERNALINTERRUPTS.c
+
+MCAL\GPIO\ATmega32_GPIO.c
+
+MCAL\Timer\ATmega32_TIMERS.c
+
