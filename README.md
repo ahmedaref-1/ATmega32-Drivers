@@ -31,9 +31,6 @@
 
 <h2 align="center">🚀 So, fasten your seatbelts, and let's take your ATmega32 projects to new heights! 🚀</h2>
 
-<p align="center">
-    <img src="https://example.com/path/to/your/awesome-coding-gif.gif" alt="Coding Fun" width="400">
-</p>
 
 <h2 align="center">Happy coding and building! 🎉</h2>
 
