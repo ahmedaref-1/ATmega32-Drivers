@@ -1,9 +1,5 @@
 <h1 align="center">🚀 Welcome to ATmega32 Microcontroller Playground! 🚀</h1>
 
-<p align="center">
-    <img src="[https://example.com/path/to/your/microcontroller-image.png](https://www.microchip.com/content/dam/mchp/mrt-dam/ic-images/tqfp/44-lead-t4x/ATmega32A-T4X-Regular.jpg)" alt="ATmega32" width="300">
-</p>
-
 <h2 align="center">Unleash the Magic of ATmega32 Microcontroller</h2>
 
 <p align="center">
