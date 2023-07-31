@@ -99,5 +99,6 @@ typedef enum
  **************************************************/
 #define FAIL		(uint8_t)(0)
 #define SUCCESS		(uint8_t)(1)
+#define NULL		(uint8_t)(0)
 
 #endif /* PLATFORMTYPES_H_ */

@@ -110,6 +110,15 @@ typedef struct
 }GPIO_Typedef_t;
 
 
+/**********************************************************
+ * EXTERNAL INTERRUPT PREIPHERAL REGISTERS BASE ADDRESSES *
+ **********************************************************/
+#define MCUCR   *((vuint8_t*)(IO_MAPPING_OFFSET + 0x35))
+#define MCUCSR  *((vuint8_t*)(IO_MAPPING_OFFSET + 0x34))
+#define GICR    *((vuint8_t*)(IO_MAPPING_OFFSET + 0x3B))
+#define GIFR    *((vuint8_t*)(IO_MAPPING_OFFSET + 0x3A))
+
+
 /************************************************
  *  TIMER0 PREIPHERAL REGISTERS BASE ADDRESSES  *
  ************************************************/
@@ -178,7 +187,7 @@ typedef struct
 #define SREG			(*(vuint8_t*)(SREG_BASE + IO_MAPPING_OFFSET))
 #define I_Bit			7
 
-#define Enable_G_Interrupt()	SREG |= (1 << I_Bit)
-#define Disable_G_Interrupt()	SREG &= ~(1 << I_Bit)
+#define Enable_GlobalInterrupt()	SREG |= (1 << I_Bit)
+#define Disable_GlobalInterrupt()	SREG &= ~(1 << I_Bit)
 
 #endif /* ATMEGA32_REGISTERS_H_ */
