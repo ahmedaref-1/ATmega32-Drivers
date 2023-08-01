@@ -165,6 +165,136 @@ typedef union{
 }EXTI_GIFR_t;
 
 
+/**********************************************************
+ *      TIMERS PREIPHERAL REGISTERS BASE ADDRESSES        *
+ **********************************************************/
+//Timer/Counter Interrupt Mask Register (TIMSK)
+typedef union{
+	vuint8_t TIMSK;
+	struct{
+		vuint8_t TOIE0		:1;
+		vuint8_t OCIE0		:1;
+		vuint8_t TOIE1		:1;
+		vuint8_t OCIE1B		:1;
+		vuint8_t OCIE1A		:1;
+		vuint8_t TICIE1		:1;
+		vuint8_t TOIE2		:1;
+		vuint8_t OCIE2		:1;
+	};
+}TIMERS_TIMSK_t;
+
+//Timer/Counter Interrupt Flag Register (TIFR)
+typedef union{
+	vuint8_t TIFR;
+	struct{
+		vuint8_t TOV0		:1;
+		vuint8_t OCF0		:1;
+		vuint8_t TOV1		:1;
+		vuint8_t OCF1B		:1;
+		vuint8_t OCF1A		:1;
+		vuint8_t ICF1		:1;
+		vuint8_t TOV2		:1;
+		vuint8_t OCF2		:1;
+	};
+}TIMERS_TIFR_t;
+
+/********** TIMER 0 REGISTERS ***************/
+//Timer/Counter0 Control Register (TCCR0)
+typedef union{
+	vuint8_t TCCR0;
+	struct{
+		vuint8_t CS00		:1;
+		vuint8_t CS01		:1;
+		vuint8_t CS02		:1;
+		vuint8_t WGM01		:1;
+		vuint8_t COM00		:1;
+		vuint8_t COM01		:1;
+		vuint8_t WGM00		:1;
+		vuint8_t FOC0		:1;
+	};
+}TIMER0_TCCR0_t;
+
+#define TCNT0			(*((vuint8_t*)	(0X52)))
+#define OCR0			(*((vuint8_t*)	(0X5C)))
+
+/********** TIMER 1 REGISTERS ***************/
+//Timer/Counter1 Control Register A (TCCR1A)
+typedef union{
+	vuint8_t TCCR1A;
+	struct{
+		vuint8_t WGM10		:1;
+		vuint8_t WGM11		:1;
+		vuint8_t FOC1B		:1;
+		vuint8_t FOC1A		:1;
+		vuint8_t COM1B0		:1;
+		vuint8_t COM1B1		:1;
+		vuint8_t COM1A0		:1;
+		vuint8_t COM1A1		:1;
+	};
+}TIMER1_TCCR1A_t;
+
+//Timer/Counter1 Control Register B (TCCR1B)
+typedef union{
+	vuint8_t TCCR1B;
+	struct{
+		vuint8_t CS10			:1;
+		vuint8_t CS11			:1;
+		vuint8_t CS12			:1;
+		vuint8_t WGM12			:1;
+		vuint8_t WGM13			:1;
+		vuint8_t reserved		:1;
+		vuint8_t ICES1			:1;
+		vuint8_t ICNC1			:1;
+	};
+}TIMER1_TCCR1B_t;
+
+#define TCNT1L          (*((vuint8_t*)	(0x4C)))
+#define TCNT1H          (*((vuint8_t*)	(0x4D)))
+#define TCNT1			(*((vuint16_t*)	(0X4C)))    
+#define OCR1AL          (*((vuint8_t *)	(0x4A)))
+#define OCR1AH          (*((vuint8_t*)	(0x4B)))
+#define OCR1A			(*((vuint16_t*)	(0X4A)))
+#define OCR1BL          (*((vuint8_t*)	(0x48)))
+#define OCR1BH          (*((vuint8_t*)	(0x49)))
+#define OCR1B			(*((vuint16_t*)	(0X48)))
+#define ICR1L           (*((vuint8_t*)	(0x46)))
+#define ICR1H           (*((vuint8_t*)	(0x47)))
+#define ICR1			(*((vuint16_t*)	(0X46)))
+
+/********** TIMER 2 REGISTERS ***************/
+//Timer/Counter2 Control Register (TCCR2)
+typedef union{
+	vuint8_t TCCR2;
+	struct{
+		vuint8_t CS20		:1;
+		vuint8_t CS21		:1;
+		vuint8_t CS22		:1;
+		vuint8_t WGM21		:1;
+		vuint8_t COM20		:1;
+		vuint8_t COM21		:1;
+		vuint8_t WGM20		:1;
+		vuint8_t FOC2		:1;
+	};
+}TIMER2_TCCR2_t;
+
+#define TCNT2			(*((vuint8_t*)	(0X44)))
+#define OCR2			(*((vuint8_t*)	(0X43)))
+
+/********* WATCHDOG TIMER REGISTER ***************/
+//Watchdog Timer Control Register (WDTCR) 
+typedef union{
+	vuint8_t WDTCR;
+	struct{
+		vuint8_t WDP0			:1;
+		vuint8_t WDP1			:1;
+		vuint8_t WDP2			:1;
+		vuint8_t WDE			:1;
+		vuint8_t WDTOE			:1;
+		vuint8_t reserved		:3;
+	};
+}TIMERS_WDTCR_t;
+
+
 /*********************************************
  *                                           *
  *          PERIPHERALS INSTANCES            *
@@ -181,10 +311,21 @@ typedef union{
 /***********************************************
  *     EXTI PERIPHERAL INSTANCE DEFINITION     *
  ***********************************************/
-#define MCUCR		((EXTI_MCUCR_t*)(IO_MAPPING_OFFSET + 0x35))
-#define MCUCSR		((EXTI_MCUCSR_t*)(IO_MAPPING_OFFSET + 0x34))
-#define GICR		((EXTI_GICR_t*)(IO_MAPPING_OFFSET + 0x3B))
-#define GIFR		((EXTI_GIFR_t*)(IO_MAPPING_OFFSET + 0x3A))
+#define MCUCR		((EXTI_MCUCR_t*)	(IO_MAPPING_OFFSET + 0x35))
+#define MCUCSR		((EXTI_MCUCSR_t*)	(IO_MAPPING_OFFSET + 0x34))
+#define GICR		((EXTI_GICR_t*)		(IO_MAPPING_OFFSET + 0x3B))
+#define GIFR		((EXTI_GIFR_t*)		(IO_MAPPING_OFFSET + 0x3A))
+
+/***********************************************
+ *    TIMERS PERIPHERAL INSTANCE DEFINITION    *
+ ***********************************************/
+#define TIMSK		((TIMERS_TIMSK_t*)	(IO_MAPPING_OFFSET + 0x39))
+#define TIFR		((TIMERS_TIFR_t *)	(IO_MAPPING_OFFSET + 0x38))
+#define TCCR0		((TIMER0_TCCR0_t*)	(IO_MAPPING_OFFSET + 0x33))
+#define TCCR1A		((TIMER1_TCCR1A_t*)	(IO_MAPPING_OFFSET + 0x2F))
+#define TCCR1B		((TIMER1_TCCR1B_t*)	(IO_MAPPING_OFFSET + 0x2E))
+#define TCCR2		((TIMER2_TCCR2_t*)	(IO_MAPPING_OFFSET + 0x25))
+#define WDTCR		((TIMERS_WDTCR_t*)	(IO_MAPPING_OFFSET + 0x21))
 
 
 /**********************************************
@@ -192,6 +333,13 @@ typedef union{
  *        GENERIC MACROS DEFINITION           *
  *         									  *
  * ********************************************/
+/************************************************
+ *              Interrupt MACROS                *
+ ************************************************/
+#define SREG_BASE		0x3F
+#define SREG			(*(vuint8_t*)(SREG_BASE + IO_MAPPING_OFFSET))
+#define I_Bit			7
 
-
+#define Enable_GlobalInterrupt()	SREG |= (1 << I_Bit)
+#define Disable_GlobalInterrupt()	SREG &= ~(1 << I_Bit)
 #endif /* ATMEGA32_REGISTERS_H_ */
