@@ -39,9 +39,6 @@
 #define GPIOB_BASE			0x16	/* GPIO Port B base address */
 #define GPIOC_BASE			0x13	/* GPIO Port C base address */
 #define GPIOD_BASE			0x10	/* GPIO Port D base address */
-#define TIMER0_BASE			0x23	/* TIMER0 base address */
-#define TIFR_BASE			0x36	/* Timer/Counter Interrupt Flag Register base address */
-#define TIMSK_BASE			0x37	/* Timer/Counter Interrupt Mask Register base address */
 
 
 /*********************************************
@@ -113,54 +110,59 @@ typedef struct
 /**********************************************************
  * EXTERNAL INTERRUPT PREIPHERAL REGISTERS BASE ADDRESSES *
  **********************************************************/
-#define MCUCR   *((vuint8_t*)(IO_MAPPING_OFFSET + 0x35))
-#define MCUCSR  *((vuint8_t*)(IO_MAPPING_OFFSET + 0x34))
-#define GICR    *((vuint8_t*)(IO_MAPPING_OFFSET + 0x3B))
-#define GIFR    *((vuint8_t*)(IO_MAPPING_OFFSET + 0x3A))
+// EXTI MCU Control Register (EXTI_MCUCR)
+typedef union{
+	 vuint8_t MCUCR;
+	struct{
+		vuint8_t ISC00	:1;
+		vuint8_t ISC01	:1;
+		vuint8_t ISC10	:1;
+		vuint8_t ISC11	:1;
+		vuint8_t SM0	:1;
+		vuint8_t SM1	:1;
+		vuint8_t SM2	:1;
+		vuint8_t SE		:1;
+	};
+}EXTI_MCUCR_t;
 
+// EXTI MCU Control and Status Register (EXTI_MCUCSR) 
+typedef union{
+	vuint8_t MCUCSR;
+	struct{
+		vuint8_t PORF		:1;
+		vuint8_t EXTRF		:1;
+		vuint8_t BORF		:1;
+		vuint8_t WDRF		:1;
+		vuint8_t JTRF		:1;
+		vuint8_t reserved	:1;
+		vuint8_t ISC2		:1;
+		vuint8_t JTD		:1;
+	};
+}EXTI_MCUCSR_t;
 
-/************************************************
- *  TIMER0 PREIPHERAL REGISTERS BASE ADDRESSES  *
- ************************************************/
-typedef struct
-{
-	/*  Output Compare Register, Address Offset: 0x23  */
-	vuint8_t OCR0_;		
-	
-	/* Timer/Counter Register, Address Offset: 0x24  */
-	vuint8_t TCNT0_;		
-	
-	volatile union
-	{
-		/*  Timer/Counter Control Register, Address Offset: 0x25  */
-		vuint8_t TCCR0_;		
-		struct
-		{
-			vuint8_t CS0n_	    :3;		/* Clock Select [n = 2:0] */
-			vuint8_t WGM01_		:1;		/* Waveform Generation Mode [n=0:1] */
-			vuint8_t COM0n_		:2;		/* Compare Match Output Mode [n = 1:0] */
-			vuint8_t WGM00_		:1;		/* Waveform Generation Mode */
-			vuint8_t FOC0_		:1;		/* Force Output Compare */
-		}bits;
-	}TCCR0_;
-	
-}TIMER0_Typedef_t;
+// EXTI General Interrupt Control Register (EXTI_GICR)
+typedef union{
+	vuint8_t GICR;
+	struct{
+		vuint8_t IVCE		:1;
+		vuint8_t IVSEL		:1;
+		vuint8_t reserved	:3;
+		vuint8_t INT2		:1;
+		vuint8_t INT0		:1;
+		vuint8_t INT1		:1;
+	};
+}EXTI_GICR_t;
 
-/*
- * Timer/Counter Interrupt Mask Register , Address Offset: 0x37
- */
-#define TIMSK			(*(vuint8_t*)(TIMSK_BASE + IO_MAPPING_OFFSET))
-
-#define TOIE0			0	/* Timer/CounterTimer/Counter0 Overflow Interrupt Enable */
-#define OCIE0			1	/* Timer/CounterTimer/Counter0 Output Compare Match Interrupt Enable */
-
-/*
- * Timer/Counter Interrupt Flag Register , Address Offset: 0x36
- */
-#define TIFR			(*(vuint8_t*)(TIFR_BASE + IO_MAPPING_OFFSET))
-
-#define TOV0			0	/* Timer/Counter0 Overflow Flag */
-#define OCF0			1	/* Output Compare Flag 0 */
+// EXTI General Interrupt Flag Register (EXTI_GIFR)
+typedef union{
+	vuint8_t GIFR;
+	struct{
+		vuint8_t reserved	:5;
+		vuint8_t INTF2		:1;
+		vuint8_t INTF0		:1;
+		vuint8_t INTF1		:1;
+	};
+}EXTI_GIFR_t;
 
 
 /*********************************************
@@ -168,11 +170,21 @@ typedef struct
  *          PERIPHERALS INSTANCES            *
  *                                           *
  *********************************************/
+/***********************************************
+ *     GPIO PERIPHERAL INSTANCE DEFINITION     *
+ ***********************************************/
 #define GPIOA			((GPIO_Typedef_t*) (GPIOA_BASE + IO_MAPPING_OFFSET))
 #define GPIOB			((GPIO_Typedef_t*) (GPIOB_BASE + IO_MAPPING_OFFSET))
 #define GPIOC			((GPIO_Typedef_t*) (GPIOC_BASE + IO_MAPPING_OFFSET))
 #define GPIOD			((GPIO_Typedef_t*) (GPIOD_BASE + IO_MAPPING_OFFSET))
-#define TIMER0			((TIMER0_Typedef_t*) (TIMER0_BASE + IO_MAPPING_OFFSET))
+
+/***********************************************
+ *     EXTI PERIPHERAL INSTANCE DEFINITION     *
+ ***********************************************/
+#define MCUCR		((EXTI_MCUCR_t*)(IO_MAPPING_OFFSET + 0x35))
+#define MCUCSR		((EXTI_MCUCSR_t*)(IO_MAPPING_OFFSET + 0x34))
+#define GICR		((EXTI_GICR_t*)(IO_MAPPING_OFFSET + 0x3B))
+#define GIFR		((EXTI_GIFR_t*)(IO_MAPPING_OFFSET + 0x3A))
 
 
 /**********************************************
@@ -180,14 +192,6 @@ typedef struct
  *        GENERIC MACROS DEFINITION           *
  *         									  *
  * ********************************************/
-/************************************************
- *              Interrupt MACROS                *
- ************************************************/
-#define SREG_BASE		0x3F
-#define SREG			(*(vuint8_t*)(SREG_BASE + IO_MAPPING_OFFSET))
-#define I_Bit			7
 
-#define Enable_GlobalInterrupt()	SREG |= (1 << I_Bit)
-#define Disable_GlobalInterrupt()	SREG &= ~(1 << I_Bit)
 
 #endif /* ATMEGA32_REGISTERS_H_ */
