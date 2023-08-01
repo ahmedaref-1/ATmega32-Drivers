@@ -88,7 +88,7 @@ typedef struct{
  ******************************************/
 void MCAL_EXTI_Enable( EXTI_InterruptConfig_t* interruptConfiguration );
 void MCAL_EXTI_Disable( uint8_t externalInterruptLineNumber);
-void MCAL_EXTI_Update (EXTI_InterruptConfig_t* EXTI_Config);
+void MCAL_EXTI_Update (EXTI_InterruptConfig_t* interruptConfiguration);
 
 
 /******************************************
@@ -103,5 +103,13 @@ void (*GPtr_IRQCallBack[3])(void) = {NULL};
 #define 			EXTI2_IRQHandler 					__vector_3
 #define 			ISR(INT_VECT)						void INT_VECT(void) __attribute__ ((signal,used));\
 														void INT_VECT(void)
+/************************************************
+ *              Interrupt MACROS                *
+ ************************************************/
+#define SREG_BASE		0x3F
+#define SREG			(*(vuint8_t*)(SREG_BASE + IO_MAPPING_OFFSET))
+#define I_Bit			7
 
+#define Enable_GlobalInterrupt()	SREG |= (1 << I_Bit)
+#define Disable_GlobalInterrupt()	SREG &= ~(1 << I_Bit)
 #endif /* ATMEGA32_EXTERNALINTERRUPTS_H_ */
