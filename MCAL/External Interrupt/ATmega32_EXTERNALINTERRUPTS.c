@@ -18,31 +18,32 @@
  * 							    			 *
  *********************************************/
 ISR(EXTI0_IRQHandler) {
-	if (GPtr_IRQCallBack[0] != NULL) {
+	if (GPtr_EXTI_IRQCallBack[EXT_INT0_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
-		GPtr_IRQCallBack[0]();
+		GPtr_EXTI_IRQCallBack[EXT_INT0_VECTOR_ID]();
 		//This bit is cleared by writing a ‘1’ into the bit
 		GIFR->INTF0 = HIGH;
 	}
 }
 
 ISR(EXTI1_IRQHandler) {
-	if (GPtr_IRQCallBack[1] != NULL) {
+	if (GPtr_EXTI_IRQCallBack[EXT_INT1_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
-		GPtr_IRQCallBack[1]();
+		GPtr_EXTI_IRQCallBack[EXT_INT1_VECTOR_ID]();
 		//This bit is cleared by writing a ‘1’ into the bit
 		GIFR->INTF1 = HIGH;
 	}
 }
 
 ISR(EXTI2_IRQHandler) {
-	if (GPtr_IRQCallBack[2] != NULL) {
+	if (GPtr_EXTI_IRQCallBack[EXT_INT2_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
-		GPtr_IRQCallBack[2]();
+		GPtr_EXTI_IRQCallBack[EXT_INT2_VECTOR_ID]();
 		//This bit is cleared by writing a ‘1’ into the bit
 		GIFR->INTF2 = HIGH;
 	}
 }
+
 
 /******************************************
  *                                        *
@@ -61,7 +62,7 @@ void MCAL_EXTI_Enable( EXTI_InterruptConfig_t* interruptConfiguration){
 				// 3.Enable the chosen external interrupt in the General Interrupt Control Register
 				GICR->INT0 = HIGH;
 				// 4.Pass the Call Back Pointer to Function to the global array to be executed by the ISR
-				GPtr_IRQCallBack[0] = interruptConfiguration->P_IRQ_CallBack;
+				GPtr_EXTI_IRQCallBack[EXT_INT0_VECTOR_ID] = interruptConfiguration->P_IRQ_CallBack;
 				// 5.Choose the Interrupt Sense
 				switch (interruptConfiguration->EXTI_TriggerCase) {
 					case EXTI_LOW_LEVEL:
@@ -84,7 +85,7 @@ void MCAL_EXTI_Enable( EXTI_InterruptConfig_t* interruptConfiguration){
 				break;
 
 				case EXTI_LINE1:
-				GPtr_IRQCallBack[1] = interruptConfiguration->P_IRQ_CallBack;
+				GPtr_EXTI_IRQCallBack[EXT_INT1_VECTOR_ID] = interruptConfiguration->P_IRQ_CallBack;
 				GICR->INT1 = HIGH;
 				switch (interruptConfiguration->EXTI_TriggerCase) {
 					case EXTI_LOW_LEVEL:
@@ -107,7 +108,7 @@ void MCAL_EXTI_Enable( EXTI_InterruptConfig_t* interruptConfiguration){
 				break;
 
 				case EXTI_LINE2:
-				GPtr_IRQCallBack[2] = interruptConfiguration->P_IRQ_CallBack;
+				GPtr_EXTI_IRQCallBack[EXT_INT2_VECTOR_ID] = interruptConfiguration->P_IRQ_CallBack;
 				GICR->INT2 = HIGH;
 				switch (interruptConfiguration->EXTI_TriggerCase) {
 					case EXTI_FALLING_EDGE:
