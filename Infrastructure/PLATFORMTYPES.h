@@ -101,4 +101,7 @@ typedef enum
 #define SUCCESS		(uint8_t)(1)
 #define NULL		(uint8_t)(0)
 
+#define HIGH		(0b1)
+#define LOW			(0b0)
+
 #endif /* PLATFORMTYPES_H_ */
