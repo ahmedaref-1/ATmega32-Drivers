@@ -46,9 +46,9 @@ typedef struct{
 /*******************************************
  *        @ref EXTI_LineNumber define      *
  * *****************************************/
-#define EXTI_LINE0		0
-#define EXTI_LINE1		1
-#define EXTI_LINE2		2
+#define EXTI_PD2			EXTI_LINE0
+#define EXTI_PD3			EXTI_LINE1
+#define EXTI_PB2			EXTI_LINE2
 
 /*******************************************
  *           @ref EXTI_Trigger_define        *
@@ -63,22 +63,14 @@ typedef struct{
  * EXTERNAL INTERRUPT INTERFACING MACROS DEFINITIONS *
  *                                                   *
  *****************************************************/
-/********* EXTERNAL INTERRUPT 0 BITS **************/
-#define GICR_INT0_BIT	6
-#define MCUCR_ISC00_BIT	0
-#define MCUCR_ISC01_BIT	1
-#define GIFR_INTF0_BIT	6
+/************* EXTERNAL INTERRUPT 0 ******************/
+#define EXTI_LINE0			0
 
-/********* EXTERNAL INTERRUPT 1 BITS **************/
-#define GICR_INT1_BIT	7
-#define MCUCR_ISC10_BIT	2
-#define MCUCR_ISC11_BIT	3
-#define GIFR_INTF1_BIT	7
+/************* EXTERNAL INTERRUPT 1 ******************/
+#define EXTI_LINE1			1
 
-/********* EXTERNAL INTERRUPT 2 BITS **************/
-#define GICR_INT2_BIT	5
-#define MCUCSR_ISC2_BIT	2
-#define GIFR_INTF2_BIT	5
+/************* EXTERNAL INTERRUPT 2 ******************/
+#define EXTI_LINE2			2
 
 
 /******************************************
@@ -96,20 +88,21 @@ void MCAL_EXTI_Update (EXTI_InterruptConfig_t* interruptConfiguration);
  *		IRQ HANDLERS DECLRATION			  *
  *  									  *
  ******************************************/
-void (*GPtr_IRQCallBack[3])(void) = {NULL};
-
-#define 			EXTI0_IRQHandler 					__vector_1
-#define 			EXTI1_IRQHandler 					__vector_2
-#define 			EXTI2_IRQHandler 					__vector_3
+void (*GPtr_EXTI_IRQCallBack[3])(void) = {NULL};
+/******************************************
+*       Interrupt Vectors in ATmega32     *
+*******************************************/
+#define 			EXTI0_IRQHandler 						__vector_1
+#define 			EXTI1_IRQHandler 						__vector_2
+#define 			EXTI2_IRQHandler 						__vector_3
 #define 			ISR(INT_VECT)						void INT_VECT(void) __attribute__ ((signal,used));\
 														void INT_VECT(void)
-/************************************************
- *              Interrupt MACROS                *
- ************************************************/
-#define SREG_BASE		0x3F
-#define SREG			(*(vuint8_t*)(SREG_BASE + IO_MAPPING_OFFSET))
-#define I_Bit			7
-
-#define Enable_GlobalInterrupt()	SREG |= (1 << I_Bit)
-#define Disable_GlobalInterrupt()	SREG &= ~(1 << I_Bit)
+														
+/********************************************************
+* Define indexes for the global pointer to func for ISR *
+*********************************************************/
+	#define EXT_INT0_VECTOR_ID			0
+	#define EXT_INT1_VECTOR_ID			1
+	#define EXT_INT2_VECTOR_ID			2
+	
 #endif /* ATMEGA32_EXTERNALINTERRUPTS_H_ */
