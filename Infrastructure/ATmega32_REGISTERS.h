@@ -283,7 +283,7 @@ typedef union{
 /********* WATCHDOG TIMER REGISTER ***************/
 //Watchdog Timer Control Register (WDTCR) 
 typedef union{
-	vuint8_t WDTCR;
+	vuint8_t WDTCR_ALL;
 	struct{
 		vuint8_t WDP0			:1;
 		vuint8_t WDP1			:1;
