@@ -13,7 +13,6 @@
  *                INCLUDES                *
  * 										  *
  ******************************************/
-#include "ATmega32_EXTERNALINTERRUPTS.h"
 #include "ATmega32_REGISTERS.h"
 #include "COMMONMACROS.h"
 #include "PLATFORMTYPES.h"
@@ -25,8 +24,8 @@
  *       	                                  *
  **********************************************/
 typedef struct{
-
-}TIMER0_TimerZeroConfig_t;
+uint8_t WDT_Prescaler;
+}WATCHDOGTIMER_WatchDogTimerConfiguration_t;
 
 
 /**************************************************
@@ -34,47 +33,25 @@ typedef struct{
  *   CONFIGURATION MACROS REFRENCES DEFINITIONS   *
  *                                                *
  **************************************************/
+/********** WDT Prescaler select ******************/
+#define		WDT_PreScaler_16_3_MS			0 //16.3 mS
+#define		WDT_PreScaler_32_5_MS	   		1 //32.5 mS
+#define		WDT_PreScaler_65_MS	     		2 //65   mS
+#define		WDT_PreScaler_0_13_S			3 //0.13 S
+#define		WDT_PreScaler_0_26_S			4 //0.26 S
+#define		WDT_PreScaler_0_52_S			5 //0.52 S
+#define		WDT_PreScaler_1_0_S				6 //1.0  S
+#define		WDT_PreScaler_2_1_S				7 //2.1  S
 
 
-
-/********************************************
- *                                          *
- *  APIs Supported by "MCAL TIMER0 DRIVER"  *
- *  									    *
- ********************************************/
-
-
-/******************************************
- *                                        *
- *		IRQ HANDLERS DECLRATION			  *
- *  									  *
- ******************************************/
-void (*GPtr_TIMER0_IRQCallBack[2])(void) = {NULL};
-/******************************************
-*       Interrupt Vectors in ATmega32     *
-*******************************************/
-#define 			TIMER2_CTC_IRQHandler 					__vector_4
-#define 			TIMER2_OVF_IRQHandler 					__vector_5
-#define 			TIMER1_CAPT_IRQHandler 					__vector_6
-#define 			TIMER1_CTCA_IRQHandler 					__vector_7
-#define 			TIMER1_CTCB_IRQHandler 					__vector_8
-#define 			TIMER1_OVF_IRQHandler 					__vector_9
-#define 			TIMER0_CTC_IRQHandler 					__vector_10
-#define 			TIMER0_OVF_IRQHandler 					__vector_11
-#define 			ISR(INT_VECT)						void INT_VECT(void) __attribute__ ((signal,used));\
-														void INT_VECT(void)
-														
-/********************************************************
-* Define indexes for the global pointer to func for ISR *
-*********************************************************/
-	#define TIMER2_CTC_VECTOR_ID		4
-	#define TIMER2_OVF_VECTOR_ID		5
-	#define TIMER1_ICU_VECTOR_ID		6
-	#define TIMER1_CTCA_VECTOR_ID		7
-	#define TIMER1_CTCB_VECTOR_ID		8
-	#define TIMER1_OVF_VECTOR_ID		9
-	#define TIMER0_CTC_VECTOR_ID		0
-	#define TIMER0_OVF_VECTOR_ID		1
+/****************************************************
+ *													*
+ *  APIs Supported by "MCAL WATCHDOG TIMER DRIVER"  *
+ *  												*
+ ****************************************************/
+void MCAL_WATCHDOGTIMER_WDTSleep(WATCHDOGTIMER_WatchDogTimerConfiguration_t* WDTConfiguration);
+void MCAL_WATCHDOGTIMER_WDTEnable (void);
+void MCAL_WATCHDOGTIMER_WDTDisable(void);
 
 
 #endif /* ATMEGA32_WATCHDOGTIMER_H_ */
