@@ -27,13 +27,13 @@
  * @retval 		-none
  * Note			-none
  */
-void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
+void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_gpioConfiguration_t *PinConfig)
 {
-	switch(PinConfig->GPIO_PinNumber)
+	switch(PinConfig->GPIO_Pin)
 	{
 		case GPIO_PIN_0:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -59,7 +59,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 		
 		case GPIO_PIN_1:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -84,7 +84,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 		}
 		case GPIO_PIN_2:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -110,7 +110,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 		
 		case GPIO_PIN_3:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -135,7 +135,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 		}
 		case GPIO_PIN_4:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -161,7 +161,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 		
 		case GPIO_PIN_5:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -186,7 +186,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 		}
 		case GPIO_PIN_6:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -210,7 +210,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 			break;
 		}
 		case GPIO_PIN_7:{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
@@ -236,7 +236,7 @@ void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig)
 		
 		case GPIO_PIN_ALL:
 		{
-			switch(PinConfig->GPIO_PinMode)
+			switch(PinConfig->GPIO_Mode)
 			{
 				case GPIO_MODE_INPUT_HiZ:
 				{
