@@ -35,7 +35,7 @@ typedef struct{
 	// Set the C function() which will be called once IRQ happen.
 	void(*P_IRQ_CallBack)(void);
 
-}EXTI_externalInterruptConfiguration_t;
+}EXTIConfiguration_t;
 
 
 /**************************************************
@@ -78,9 +78,9 @@ typedef struct{
  *  APIs Supported by "MCAL EXTI DRIVER"  *
  *  									  *
  ******************************************/
-void MCAL_EXTI_Enable( EXTI_externalInterruptConfiguration_t* interruptConfiguration );
+void MCAL_EXTI_Enable( EXTIConfiguration_t* interruptConfiguration );
 void MCAL_EXTI_Disable( uint8_t externalInterruptLineNumber);
-void MCAL_EXTI_Update (EXTI_externalInterruptConfiguration_t* interruptConfiguration);
+void MCAL_EXTI_Update (EXTIConfiguration_t* interruptConfiguration);
 
 
 /******************************************

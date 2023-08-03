@@ -22,7 +22,7 @@ ISR(EXTI0_IRQHandler) {
 	if (GPtr_EXTI_IRQCallBack[EXT_INT0_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
 		GPtr_EXTI_IRQCallBack[EXT_INT0_VECTOR_ID]();
-		//This bit is cleared by writing a â€˜1â€™ into the bit
+		//This bit is cleared by writing a ‘1’ into the bit
 		GIFR->INTF0 = HIGH;
 	}
 }
@@ -31,7 +31,7 @@ ISR(EXTI1_IRQHandler) {
 	if (GPtr_EXTI_IRQCallBack[EXT_INT1_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
 		GPtr_EXTI_IRQCallBack[EXT_INT1_VECTOR_ID]();
-		//This bit is cleared by writing a â€˜1â€™ into the bit
+		//This bit is cleared by writing a ‘1’ into the bit
 		GIFR->INTF1 = HIGH;
 	}
 }
@@ -40,7 +40,7 @@ ISR(EXTI2_IRQHandler) {
 	if (GPtr_EXTI_IRQCallBack[EXT_INT2_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
 		GPtr_EXTI_IRQCallBack[EXT_INT2_VECTOR_ID]();
-		//This bit is cleared by writing a â€˜1â€™ into the bit
+		//This bit is cleared by writing a ‘1’ into the bit
 		GIFR->INTF2 = HIGH;
 	}
 }
@@ -54,7 +54,7 @@ ISR(EXTI2_IRQHandler) {
 /*******************************************
  *      EXTERNALLY USED FUNCITONS          *
  * *****************************************/
-void MCAL_EXTI_Enable( EXTI_externalInterruptConfiguration_t* interruptConfiguration){
+void MCAL_EXTI_Enable( EXTIConfiguration_t* interruptConfiguration){
 			// 1.Enable the Global Interrupt
 			Enable_GlobalInterrupt();
 			// 2.Choose which external interrupt signal 
@@ -135,6 +135,6 @@ void MCAL_EXTI_Disable( uint8_t externalInterruptLineNumber){
 			break;
 		}
 }
-void MCAL_EXTI_Update (EXTI_externalInterruptConfiguration_t* EXTI_Config){
+void MCAL_EXTI_Update (EXTIConfiguration_t* EXTI_Config){
 	MCAL_EXTI_Enable(EXTI_Config);
 }

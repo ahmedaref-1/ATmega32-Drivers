@@ -27,7 +27,7 @@
  * @retval 		-none
  * Note			-none
  */
-void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_gpioConfiguration_t *PinConfig)
+void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIOConfiguration_t *PinConfig)
 {
 	switch(PinConfig->GPIO_Pin)
 	{

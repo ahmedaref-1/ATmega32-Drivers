@@ -17,7 +17,8 @@
  *         IRQ HANDLERS DEFINITION           *
  * 							    			 *
  *********************************************/
-
+void (*GPtr_TIMER0_IRQCallBack[2])(void) = {NULL};
+	
 ISR(TIMER0_CTC_IRQHandler) {
 	if (GPtr_TIMER0_IRQCallBack[TIMER0_CTC_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
@@ -36,151 +37,137 @@ ISR(TIMER0_OVF_IRQHandler) {
  *         FUNCTIONS DEFINITION           *
  * 										  *
  ******************************************/
-void TIMER0_Init(TIMER0_Timer0Config_t* Timer0Configuration)
-{
-	/*Set Configurable Modes*/
-switch (Timer0Configuration->TIMER0_WaveFormGenerationMode)
-{
-	case(TIMER0_NORMAL_MODE):
-		/*1.Initialize Waveform Generation Mode as Normal Mode*/
-		TCCR0->WGM00 = LOW;
-		TCCR0->WGM01 = LOW;
-		/*2.Set the Required Preload Value*/
-		TCNT0 = Timer0Configuration->timer0NormalModeConfiguration.TIMER0_PreloadValue ;	
-		/*3.Timer0 Overflow Interrupt Enable*/
-		if(ENABLE == Timer0Configuration->timer0NormalModeConfiguration.TIMER0_OverFlowInterrupt){
-			TIMSK->TOIE0 = HIGH;
-			GPtr_TIMER0_IRQCallBack[TIMER0_OVF_VECTOR_ID] = Timer0Configuration->timer0NormalModeConfiguration.P_IRQ_CallBack;
-		}
-		else if(DISABLE == Timer0Configuration->timer0NormalModeConfiguration.TIMER0_OverFlowInterrupt){
-			TIMSK->TOIE0 = LOW;
-		}
-		else{
-			/* MISRA */
-		}
-		break;
+void MCAL_TIMER0_Init(TIMER0Configuration_t* TIMER0_Config){
 		
-	case(TIMER0_PWM_MODE):
-		/*1.Initialize Waveform Generation Mode as PWM Mode*/
-		TCCR0->WGM00 = HIGH;
-		TCCR0->WGM01 = LOW;
-		/*2.Set CTC PWM MODE*/
-		switch(Timer0Configuration->timer0PWMModeConfiguration.TIMER0_ClearTimerOnCompareMatchPWMMode){
-			case(TIMER0_OC_DISCONNECTED):
-			TCCR0->COM00 = LOW;
-			TCCR0->COM01 = LOW;
-			break;
-			case(TIMER0_CLR_ON_CTC_SET_ON_TOP):
-			TCCR0->COM00 = LOW ;
-			TCCR0->COM01 = HIGH ;
-			break;
-			case(TIMER0_SET_ON_CTC_CLR_ON_TOP):
+	// 1. Select Timer Mode
+	switch(TIMER0_Config->Timer0Mode){
+		case(TIMER0_MODE_NORMAL):
+			TCCR0->WGM00 = LOW;
+			TCCR0->WGM01 = LOW;
+		break;
+		case(TIMER0_MODE_CTC):
+			TCCR0->WGM00 = LOW;
+			TCCR0->WGM01 = HIGH;
+		break;
+		case(TIMER0_MODE_Fast_PWM_Inverting):
+			TCCR0->WGM00 = HIGH;
+			TCCR0->WGM01 = HIGH;
 			TCCR0->COM00 = HIGH;
 			TCCR0->COM01 = HIGH;
-			break;
-
-		}
-		/*3.Set the Required CTC Value*/
-		OCR0 = Timer0Configuration->timer0PWMModeConfiguration.TIMER0_ClearTimerOnCompareMatchValue ;
 		break;
+		case(TIMER0_MODE_Fast_PWM_Noninverting):
+			TCCR0->WGM00 = HIGH;
+			TCCR0->WGM01 = HIGH;
+			TCCR0->COM00 = LOW;
+			TCCR0->COM01 = HIGH;		
+		break;
+		case(TIMER0_MODE_Phase_Correct_PWM_Set_DC):
+			TCCR0->WGM00 = LOW;
+			TCCR0->WGM01 = HIGH;
+			TCCR0->COM00 = LOW;
+			TCCR0->COM01 = HIGH;	
+		break;
+		case(TIMER0_MODE_Phase_Correct_PWM_Set_UC):
+			TCCR0->WGM00 = LOW;
+			TCCR0->WGM01 = HIGH;
+			TCCR0->COM00 = HIGH;
+			TCCR0->COM01 = HIGH;			
+		break;
+	}
 	
-		case (TIMER0_CTC_MODE):
-		/*1.Initialize Waveform Generation Mode as CTC Mode*/
-		TCCR0->WGM00 = LOW;
-		TCCR0->WGM01 = HIGH;
-		/*2.Set the Required CTC Value*/
-		OCR0 = Timer0Configuration->timer0CTCModeConfiguration.TIMER0_ClearTimerOnCompareMatchValue ;
-		/*3.Timer0 Compare Match Interrupt Enable*/
-		if(ENABLE == Timer0Configuration->timer0CTCModeConfiguration.TIMER0_ClearOnCompareMatchInterrupt){
-			TIMSK->OCIE0 = HIGH;
-			GPtr_TIMER0_IRQCallBack[TIMER0_CTC_VECTOR_ID] = Timer0Configuration->timer0CTCModeConfiguration.P_IRQ_CallBack;
-		}
-		else if(DISABLE == Timer0Configuration->timer0CTCModeConfiguration.TIMER0_ClearOnCompareMatchInterrupt){
-			TIMSK->OCIE0 = LOW;
-		}
-		else{
-			/* MISRA */
-		}
-		break;
-	
-	case(TIMER0_FAST_PWM_MODE):
-		/*1.Initialize Waveform Generation Mode as Fast PWM Mode*/
-		TCCR0->WGM00 = HIGH;
-		TCCR0->WGM01 = HIGH;	
-		/*2.Set CTC Fast PWM MODE*/
-		switch(Timer0Configuration->timer0FastPWMModeConfiguration.TIMER0_OutputCompareMatchMode){
-			case(TIMER0_OC_DISCONNECTED):
-				TCCR0->COM00 = LOW;
-				TCCR0->COM01 = LOW;
-				break;
-			case(TIMER0_CLR_ON_CTC_SET_ON_TOP):
-				TCCR0->COM00 = LOW;
-				TCCR0->COM01 = HIGH;
-				break;
-			case(TIMER0_SET_ON_CTC_CLR_ON_TOP):
-				TCCR0->COM00 = HIGH;
-				TCCR0->COM01 = HIGH;
-				break;
-		}
-
-		/*3.Set the Required CTC Value*/
-		OCR0 = Timer0Configuration->timer0FastPWMModeConfiguration.TIMER0_ClearTimerOnCompareMatchValue ;
-		break;
-}
-
-	/*Set the Required Prescaler*/
-	switch(Timer0Configuration->TIMER0_Prescaler){
-		case(TIMER0_NO_CLOCK_SOURCE):
-			TCCR0->CS00 = LOW;
-			TCCR0->CS01 = LOW;
-			TCCR0->CS02 = LOW;
-			break;
-			
-		case(TIMER0_NO_PRESCALER_FACTOR):
+	if ((TIMER0_Config->Timer0Mode != TIMER0_MODE_CTC) && (TIMER0_Config->Timer0Mode != TIMER0_MODE_NORMAL))
+		SET_BIT(OCR0,3);    //Configure OC0 (PINB3) as Output
+		
+	// 2. Select Clock Source
+	switch(TIMER0_Config->Timer0ClockSource){
+		case(TIMER0_CLOCK_SOURCE_INTERNAL_NO_PRESCALER):
 			TCCR0->CS00 = HIGH;
 			TCCR0->CS01 = LOW;
 			TCCR0->CS02 = LOW;
-			break;
-			
-		case(TIMER0_DIVISION_FACTOR_8):
+		break;
+		case(TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_8):
 			TCCR0->CS00 = LOW;
 			TCCR0->CS01 = HIGH;
 			TCCR0->CS02 = LOW;
 		break;
-		
-		case(TIMER0_DIVISION_FACTOR_64):
+		case(TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_64):
 			TCCR0->CS00 = HIGH;
 			TCCR0->CS01 = HIGH;
 			TCCR0->CS02 = LOW;
-			break;
-			
-		case(TIMER0_DIVISION_FACTOR_256):
+		break;
+		case(TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_256):
 			TCCR0->CS00 = LOW;
 			TCCR0->CS01 = LOW;
 			TCCR0->CS02 = HIGH;
 		break;
-		
-		case(TIMER0_DIVISION_FACTOR_1024):
+		case(TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_1024):
 			TCCR0->CS00 = HIGH;
 			TCCR0->CS01 = LOW;
 			TCCR0->CS02 = HIGH;
 		break;
-		
-		case(TIMER0_EXTERNAL_CLOCK_SOURCE_FALLING):
+		case(TIMER0_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE):
 			TCCR0->CS00 = LOW;
 			TCCR0->CS01 = HIGH;
 			TCCR0->CS02 = HIGH;
 		break;
-		
-		case(TIMER0_EXTERNAL_CLOCK_SOURCE_RISING):
+		case(TIMER0_CLOCK_SOURCE_EXTERNAL_RISING_EDGE):
 			TCCR0->CS00 = HIGH;
 			TCCR0->CS01 = HIGH;
 			TCCR0->CS02 = HIGH;
 		break;
 	}
+	if ((TIMER0_Config->Timer0ClockSource == TIMER0_CLOCK_SOURCE_EXTERNAL_RISING_EDGE) && (TIMER0_Config->Timer0ClockSource == TIMER0_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE))
+		SET_BIT(OCR0,0);  //Configure T0 (PINB0) as Input
+	
+	// 3. Enable Or Disable IRQ
+	switch(TIMER0_Config->Timer0IRQEnable){
+		case(TIMER0_IRQ_ENABLE_TOIE0):
+		TIMSK->TOIE0 = HIGH;
+		break;
+		case(TIMER0_IRQ_ENABLE_OCIE0):
+		TIMSK->OCIE0 = HIGH;
+		break;
+	}
+	if (TIMER0_Config->Timer0IRQEnable != TIMER0_IRQ_ENABLE_NONE)
+		Enable_GlobalInterrupt();
+	
+	// 4. Call back ISR function
+		switch(TIMER0_Config->Timer0IRQEnable){
+			case(TIMER0_IRQ_ENABLE_TOIE0):
+				GPtr_TIMER0_IRQCallBack[TIMER0_OVF_VECTOR_ID] = TIMER0_Config->P_IRQ_CallBack;
+			break;
+			case(TIMER0_IRQ_ENABLE_OCIE0):
+				GPtr_TIMER0_IRQCallBack[TIMER0_CTC_VECTOR_ID] = TIMER0_Config->P_IRQ_CallBack;
+			break;
+		}
+}
+void MCAL_TIMER0_DeInit(void){
+	/* Reset the Pre-scaler */
+	TCCR0->CS00 = LOW;
+	TCCR0->CS01 = LOW;
+	TCCR0->CS02 = LOW;
+}
+void MCAL_TIMER0_GetCounterValue(uint8_t* TicksNumber){
+	*TicksNumber = TCNT0;
 }
 
-uint8_t TIMER0_GetTimerCounterValue (void)
-{
-	return TCNT0 ;
+void MCAL_TIMER0_SetCounterValue(uint8_t u8_TicksNumber){
+	TCNT0 = u8_TicksNumber;
+}
+
+void MCAL_TIMER0_GetCompareValue(uint8_t* TicksNumber){
+	 *TicksNumber = OCR0;
+}
+void MCAL_TIMER0_SetCompareValue(uint8_t  u8TicksNumber){
+	OCR0 = u8TicksNumber;
+}
+void MCAL_TIMER0_SetPWMDutyCycle(TIMER0Configuration_t* TIMER0_Config,uint8_t Duty_Cycle){
+		if(TIMER0_Config->Timer0Mode == TIMER0_MODE_Fast_PWM_Noninverting)
+		{
+			OCR0 = Duty_Cycle;
+		}
+		else if(TIMER0_Config->Timer0Mode == TIMER0_MODE_Fast_PWM_Inverting)
+		{
+			OCR0 = (uint8_t)(255 - Duty_Cycle);
+		}
 }

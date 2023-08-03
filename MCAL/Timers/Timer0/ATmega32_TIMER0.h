@@ -23,55 +23,30 @@
  * TIMER CONFIGURATION TYPEDEF USED BY USER   *
  *       	                                  *
  **********************************************/
-typedef struct{
-	// This parameter can be sit by the user with any value.
-	uint8_t TIMER0_PreloadValue;
-	// This parameter must be set based on @ref InterruptEnable define.
-	uint8_t TIMER0_OverFlowInterrupt;
-	// Set the C function() which will be called once IRQ happen.
-	void(*P_IRQ_CallBack)(void);
-}TIMER0_Timer0NormalModeConfig_t;
+typedef struct
+{
+	/*
+		Specifies Timer Mode (Normal mode or CTC)
+		This parameter must be set based on @ref TIMER0_MODE_DEFINE
+	*/
+	uint8_t Timer0Mode;			
 
-typedef struct{
-	// This parameter can be sit by the user with any value.
-	uint8_t TIMER0_ClearTimerOnCompareMatchValue;
-	// This parameter must be set based on @ref ClearTimerOnCompareMatchPWMMode define.
-	uint8_t TIMER0_ClearTimerOnCompareMatchPWMMode;
-}TIMER0_Timer0PWMModeConfig_t;
-
-typedef struct{
-	// This parameter can be sit by the user with any value.
-	uint8_t TIMER0_ClearTimerOnCompareMatchValue;
-	// This parameter must be set based on @ref OutputCompareMatchMode define.
-	uint8_t TIMER0_OutputCompareMatchMode;
-	// This parameter must be set based on @ref InterruptEnable define.
-	uint8_t TIMER0_ClearOnCompareMatchInterrupt;
-	// Set the C function() which will be called once IRQ happen.
-	void(*P_IRQ_CallBack)(void);
-}TIMER0_Timer0CTCModeConfig_t;
-
-typedef struct{
-	// This parameter can be sit by the user with any value.
-	uint8_t TIMER0_ClearTimerOnCompareMatchValue;
-	// This parameter must be set based on @ref OutputCompareMatchMode define.
-	uint8_t TIMER0_OutputCompareMatchMode;
-}TIMER0_Timer0FastPWMModeConfig_t;
-
-typedef struct{
-	// This parameter must be set based on @ref WaveFormGenerationMode define.
-	uint8_t TIMER0_WaveFormGenerationMode; 
-	// This parameter must be set based on @ref Prescaler define.
-	uint8_t TIMER0_Prescaler;
-	// This parameter contains the normal mode configuration.
-	TIMER0_Timer0NormalModeConfig_t timer0NormalModeConfiguration;
-	// This parameter contains the PWM mode configuration.
-	TIMER0_Timer0PWMModeConfig_t timer0PWMModeConfiguration;
-	// This parameter contains the CTC mode configuration.
-	TIMER0_Timer0CTCModeConfig_t timer0CTCModeConfiguration;
-	// This parameter contains the Fast PWM mode configuration.
-	TIMER0_Timer0FastPWMModeConfig_t timer0FastPWMModeConfiguration;
+	/*
+		Specifies Timer Clock Source (External / Internal) and PreScaler with internal clock only
+		This parameter must be set based on @ref TIMER0_CLOCK_SOURCE_DEFINE
+	*/
+	uint8_t Timer0ClockSource;	
+	/*
+		Enable or Disable IRQ
+		This parameter must be set based on @ref TIMER0_IRQ_ENABLE_DEFINE
+	*/
+	uint8_t Timer0IRQEnable;				
+	/*
+		Set the C Function which will be called once IRQ Happens
+	*/
+	void (*P_IRQ_CallBack)(void);	
 	
-}TIMER0_Timer0Config_t;
+}TIMER0Configuration_t;
 
 
 /**************************************************
@@ -79,55 +54,53 @@ typedef struct{
  *   CONFIGURATION MACROS REFRENCES DEFINITIONS   *
  *                                                *
  **************************************************/
-/***** @ref WaveFormGenerationMode define ******/
-#define TIMER0_NORMAL_MODE		0
-#define TIMER0_PWM_MODE			1
-#define TIMER0_CTC_MODE			2
-#define TIMER0_FAST_PWM_MODE	3
+/*********** @ref TIMER0_MODE_DEFINE **************/
+#define TIMER0_MODE_NORMAL								0
+#define TIMER0_MODE_CTC									1
+#define TIMER0_MODE_Fast_PWM_Inverting			     	2
+#define TIMER0_MODE_Fast_PWM_Noninverting		   		3
+#define TIMER0_MODE_Phase_Correct_PWM_Set_DC      	   	4
+#define TIMER0_MODE_Phase_Correct_PWM_Set_UC      	   	5
 
-/************ @ref Prescaler define ***********/
-#define TIMER0_NO_CLOCK_SOURCE	 	                    0
-#define TIMER0_NO_PRESCALER_FACTOR 	                    1
-#define TIMER0_DIVISION_FACTOR_8	 	                2
-#define TIMER0_DIVISION_FACTOR_64	                    3
-#define TIMER0_DIVISION_FACTOR_256	                    4
-#define TIMER0_DIVISION_FACTOR_1024	                    5
-#define TIMER0_EXTERNAL_CLOCK_SOURCE_FALLING	        6
-#define TIMER0_EXTERNAL_CLOCK_SOURCE_RISING	        7
+/******** @ref TIMER0_CLOCK_SOURCE_DEFINE *********/
+#define TIMER0_CLOCK_SOURCE_INTERNAL_NO_PRESCALER		0
+#define TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_8		1
+#define TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_64		2
+#define TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_256		3
+#define TIMER0_CLOCK_SOURCE_INTERNAL_PRESCALER_1024		4
+#define TIMER0_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE		5
+#define TIMER0_CLOCK_SOURCE_EXTERNAL_RISING_EDGE		6
 
-/************ @ref InterruptEnable define ***********/
-#define DISABLE						                    0
-#define ENABLE						                    1
-
-/***** @ref ClearTimerOnCompareMatchPWMMode define ***/
-#define TIMER0_OC_DISCONNECTED							0
-#define TIMER0_CLR_ON_CTC_SET_ON_TOP				    1
-#define TIMER0_SET_ON_CTC_CLR_ON_TOP				    2
-
-/*********** @ref OutputCompareMatchMode *************/
-#define TIMER0_OC_DISCONNECTED					        0
-#define TIMER0_OC_TOGGEL							    1
-#define TIMER0_OC_LOW							        2
-#define TIMER0_OC_HIGH							        3
+/********* @ref TIMER0_IRQ_ENABLE_DEFINE **********/
+#define TIMER0_IRQ_ENABLE_NONE							0
+#define TIMER0_IRQ_ENABLE_TOIE0							1
+#define TIMER0_IRQ_ENABLE_OCIE0							2
 
 /********************************************
  *                                          *
  *  APIs Supported by "MCAL TIMER0 DRIVER"  *
  *  									    *
  ********************************************/
-void MCAL_TIMER0_Init(TIMER0_Timer0Config_t* Timer0Configuration) ;
-uint8_t MCAL_TIMER0_GetTimerCounterValue (void) ;
+void MCAL_TIMER0_Init(TIMER0Configuration_t* TIMER0_Config);
+void MCAL_TIMER0_DeInit(void);
+void MCAL_TIMER0_GetCounterValue(uint8_t* TicksNumber);
+void MCAL_TIMER0_SetCounterValue(uint8_t u8_TicksNumber);
+void MCAL_TIMER0_GetOverflowValue(uint8_t* TicksNumber);
+void MCAL_TIMER0_SetOverflowValue(uint8_t u8_TicksNumber);
+void MCAL_TIMER0_GetCompareValue(uint8_t* TicksNumber);
+void MCAL_TIMER0_SetCompareValue(uint8_t  TicksNumber);
+void MCAL_TIMER0_SetPWMDutyCycle(TIMER0Configuration_t* TIMER0_Config,uint8_t Duty_Cycle);
+
 
 /******************************************
  *                                        *
  *		IRQ HANDLERS DECLRATION			  *
  *  									  *
  ******************************************/
-void (*GPtr_TIMER0_IRQCallBack[2])(void) = {NULL};
 /******************************************
 *       Interrupt Vectors in ATmega32     *
 *******************************************/
-#define 			TIMER0_CTC_IRQHandler 					__vector_10
+#define 			TIMER2_CTC_IRQHandler 					__vector_10
 #define 			TIMER0_OVF_IRQHandler 					__vector_11
 #define 			ISR(INT_VECT)						void INT_VECT(void) __attribute__ ((signal,used));\
 														void INT_VECT(void)
@@ -136,7 +109,7 @@ void (*GPtr_TIMER0_IRQCallBack[2])(void) = {NULL};
 * Define indexes for the global pointer to func for ISR *
 *********************************************************/
 #define TIMER0_CTC_VECTOR_ID		0
-#define TIMER0_OVF_VECTOR_ID		1
+#define TIMER2_OVF_VECTOR_ID		1
 
 
 
