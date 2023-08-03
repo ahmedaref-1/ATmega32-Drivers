@@ -30,13 +30,13 @@ typedef struct{
 	 1.Specifies the GPIO PIN to be configured
 	 2.This parameter can be a value of @ref GPIO_PIN_NUMBERS
 	*/
-	uint16_t GPIO_PinNumber;
+	uint16_t GPIO_Pin;
 	/*
 	 1.Specifies the Mode for selected pin.
 	 2.This parameter can be a value of @ref GPIO_PIN_MODES
 	*/	
-	uint8_t GPIO_PinMode;					
-}GPIO_PinConfig_t;
+	uint8_t GPIO_Mode;					
+}GPIO_gpioConfiguration_t;
 
 
 /**************************************************
@@ -89,7 +89,7 @@ typedef struct{
  *  APIs Supported by "MCAL GPIO DRIVER"  *
  *  									  *
  ******************************************/
-void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_PinConfig_t *PinConfig);
+void MCAL_GPIO_Init(GPIO_Typedef_t *GPIOx,GPIO_gpioConfiguration_t *PinConfig);
 void MCAL_GPIO_DeInit(GPIO_Typedef_t *GPIOx);
 uint8_t MCAL_GPIO_ReadPin(GPIO_Typedef_t *GPIOx,uint8_t PinNumber);
 uint8_t MCAL_GPIO_ReadPort(GPIO_Typedef_t *GPIOx);
