@@ -35,7 +35,7 @@ typedef struct{
 	// Set the C function() which will be called once IRQ happen.
 	void(*P_IRQ_CallBack)(void);
 
-}EXTI_InterruptConfig_t;
+}EXTI_externalInterruptConfiguration_t;
 
 
 /**************************************************
@@ -64,13 +64,13 @@ typedef struct{
  *                                                   *
  *****************************************************/
 /************* EXTERNAL INTERRUPT 0 ******************/
-#define EXTI_LINE0			0
+#define EXTI_LINE0			1
 
 /************* EXTERNAL INTERRUPT 1 ******************/
-#define EXTI_LINE1			1
+#define EXTI_LINE1			2
 
 /************* EXTERNAL INTERRUPT 2 ******************/
-#define EXTI_LINE2			2
+#define EXTI_LINE2			3
 
 
 /******************************************
@@ -78,9 +78,9 @@ typedef struct{
  *  APIs Supported by "MCAL EXTI DRIVER"  *
  *  									  *
  ******************************************/
-void MCAL_EXTI_Enable( EXTI_InterruptConfig_t* interruptConfiguration );
+void MCAL_EXTI_Enable( EXTI_externalInterruptConfiguration_t* interruptConfiguration );
 void MCAL_EXTI_Disable( uint8_t externalInterruptLineNumber);
-void MCAL_EXTI_Update (EXTI_InterruptConfig_t* interruptConfiguration);
+void MCAL_EXTI_Update (EXTI_externalInterruptConfiguration_t* interruptConfiguration);
 
 
 /******************************************
@@ -88,7 +88,6 @@ void MCAL_EXTI_Update (EXTI_InterruptConfig_t* interruptConfiguration);
  *		IRQ HANDLERS DECLRATION			  *
  *  									  *
  ******************************************/
-void (*GPtr_EXTI_IRQCallBack[3])(void) = {NULL};
 /******************************************
 *       Interrupt Vectors in ATmega32     *
 *******************************************/
