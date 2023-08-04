@@ -68,8 +68,6 @@ typedef struct
 #define TIMER2_CLOCK_SOURCE_INTERNAL_PRESCALER_64		2
 #define TIMER2_CLOCK_SOURCE_INTERNAL_PRESCALER_256		3
 #define TIMER2_CLOCK_SOURCE_INTERNAL_PRESCALER_1024		4
-#define TIMER2_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE		5
-#define TIMER2_CLOCK_SOURCE_EXTERNAL_RISING_EDGE		6
 
 /********* @ref TIMER0_IRQ_ENABLE_DEFINE **********/
 #define TIMER2_IRQ_ENABLE_NONE							0
@@ -85,11 +83,11 @@ void MCAL_TIMER2_Init(TIMER2Configuration_t* TIMER2_Config);
 void MCAL_TIMER2_DeInit(void);
 void MCAL_TIMER2_GetCounterValue(uint8_t* TicksNumber);
 void MCAL_TIMER2_SetCounterValue(uint8_t u8_TicksNumber);
-void MCAL_TIMER2_GetOverflowValue(uint8_t* TicksNumber);
-void MCAL_TIMER2_SetOverflowValue(uint8_t u8_TicksNumber);
+void MCAL_TIMER2_GetOverflowCount(uint16_t* TicksNumber);
+void MCAL_TIMER2_SetOverflowCount(uint16_t u8_TicksNumber);
 void MCAL_TIMER2_GetCompareValue(uint8_t* TicksNumber);
 void MCAL_TIMER2_SetCompareValue(uint8_t  TicksNumber);
-void MCAL_TIMER2_SetPWMDutyCycle(TIMER2Configuration_t* TIMER2_Config,uint8_t Duty_Cycle);
+void MCAL_TIMER2_SetPWMDutyCycle(uint8_t Duty_Cycle);
 
 
 /******************************************

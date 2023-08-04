@@ -12,13 +12,20 @@
 #include "ATmega32_TIMER0.h"
 
 
+/******************************************
+ *                                        *
+ *     GLOBAL VARIABLES DEFINITION        *
+ * 										  *
+ ******************************************/
+void (*GPtr_TIMER0_IRQCallBack[2])(void) = {NULL};
+uint16_t Timer0NumberOfOverflowOccurence;
+TIMER0Configuration_t G_Timer0Configuration;
+
 /*********************************************
  *                                           *
  *         IRQ HANDLERS DEFINITION           *
  * 							    			 *
  *********************************************/
-void (*GPtr_TIMER0_IRQCallBack[2])(void) = {NULL};
-	
 ISR(TIMER0_CTC_IRQHandler) {
 	if (GPtr_TIMER0_IRQCallBack[TIMER0_CTC_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
@@ -30,6 +37,7 @@ ISR(TIMER0_OVF_IRQHandler) {
 	if (GPtr_TIMER0_IRQCallBack[TIMER0_OVF_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
 		GPtr_TIMER0_IRQCallBack[TIMER0_OVF_VECTOR_ID]();
+		Timer0NumberOfOverflowOccurence++;
 	}
 }
 /******************************************
@@ -38,7 +46,7 @@ ISR(TIMER0_OVF_IRQHandler) {
  * 										  *
  ******************************************/
 void MCAL_TIMER0_Init(TIMER0Configuration_t* TIMER0_Config){
-		
+		G_Timer0Configuration = *TIMER0_Config ;
 	// 1. Select Timer Mode
 	switch(TIMER0_Config->Timer0Mode){
 		case(TIMER0_MODE_NORMAL):
@@ -76,7 +84,7 @@ void MCAL_TIMER0_Init(TIMER0Configuration_t* TIMER0_Config){
 	}
 	
 	if ((TIMER0_Config->Timer0Mode != TIMER0_MODE_CTC) && (TIMER0_Config->Timer0Mode != TIMER0_MODE_NORMAL))
-		SET_BIT(OCR0,3);    //Configure OC0 (PINB3) as Output
+		GPIOB->DDR.bits.DD3 = HIGH;    //Configure OC0 (PINB3) as Output
 		
 	// 2. Select Clock Source
 	switch(TIMER0_Config->Timer0ClockSource){
@@ -116,8 +124,8 @@ void MCAL_TIMER0_Init(TIMER0Configuration_t* TIMER0_Config){
 			TCCR0->CS02 = HIGH;
 		break;
 	}
-	if ((TIMER0_Config->Timer0ClockSource == TIMER0_CLOCK_SOURCE_EXTERNAL_RISING_EDGE) && (TIMER0_Config->Timer0ClockSource == TIMER0_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE))
-		SET_BIT(OCR0,0);  //Configure T0 (PINB0) as Input
+	if ((TIMER0_Config->Timer0ClockSource == TIMER0_CLOCK_SOURCE_EXTERNAL_RISING_EDGE) || (TIMER0_Config->Timer0ClockSource == TIMER0_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE))
+		GPIOB->DDR.bits.DD0 = LOW; //Configure T0 (PINB0) as Input
 	
 	// 3. Enable Or Disable IRQ
 	switch(TIMER0_Config->Timer0IRQEnable){
@@ -161,12 +169,21 @@ void MCAL_TIMER0_GetCompareValue(uint8_t* TicksNumber){
 void MCAL_TIMER0_SetCompareValue(uint8_t  u8TicksNumber){
 	OCR0 = u8TicksNumber;
 }
-void MCAL_TIMER0_SetPWMDutyCycle(TIMER0Configuration_t* TIMER0_Config,uint8_t Duty_Cycle){
-		if(TIMER0_Config->Timer0Mode == TIMER0_MODE_Fast_PWM_Noninverting)
+
+void MCAL_TIMER0_GetOverflowCount(uint16_t* TicksNumber){
+	*TicksNumber = Timer0NumberOfOverflowOccurence;
+}
+
+void MCAL_TIMER0_SetOverflowCount(uint16_t u8_TicksNumber){
+	Timer0NumberOfOverflowOccurence = u8_TicksNumber;
+}
+
+void MCAL_TIMER0_SetPWMDutyCycle(uint8_t Duty_Cycle){
+		if(G_Timer0Configuration.Timer0Mode == TIMER0_MODE_Fast_PWM_Noninverting)
 		{
 			OCR0 = Duty_Cycle;
 		}
-		else if(TIMER0_Config->Timer0Mode == TIMER0_MODE_Fast_PWM_Inverting)
+		else if(G_Timer0Configuration.Timer0Mode == TIMER0_MODE_Fast_PWM_Inverting)
 		{
 			OCR0 = (uint8_t)(255 - Duty_Cycle);
 		}

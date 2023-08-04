@@ -85,11 +85,11 @@ void MCAL_TIMER0_Init(TIMER0Configuration_t* TIMER0_Config);
 void MCAL_TIMER0_DeInit(void);
 void MCAL_TIMER0_GetCounterValue(uint8_t* TicksNumber);
 void MCAL_TIMER0_SetCounterValue(uint8_t u8_TicksNumber);
-void MCAL_TIMER0_GetOverflowValue(uint8_t* TicksNumber);
-void MCAL_TIMER0_SetOverflowValue(uint8_t u8_TicksNumber);
+void MCAL_TIMER0_GetOverflowCount(uint16_t* TicksNumber);
+void MCAL_TIMER0_SetOverflowCount(uint16_t u8_TicksNumber);
 void MCAL_TIMER0_GetCompareValue(uint8_t* TicksNumber);
 void MCAL_TIMER0_SetCompareValue(uint8_t  TicksNumber);
-void MCAL_TIMER0_SetPWMDutyCycle(TIMER0Configuration_t* TIMER0_Config,uint8_t Duty_Cycle);
+void MCAL_TIMER0_SetPWMDutyCycle(uint8_t Duty_Cycle);
 
 
 /******************************************
@@ -100,7 +100,7 @@ void MCAL_TIMER0_SetPWMDutyCycle(TIMER0Configuration_t* TIMER0_Config,uint8_t Du
 /******************************************
 *       Interrupt Vectors in ATmega32     *
 *******************************************/
-#define 			TIMER2_CTC_IRQHandler 					__vector_10
+#define 			TIMER0_CTC_IRQHandler 					__vector_10
 #define 			TIMER0_OVF_IRQHandler 					__vector_11
 #define 			ISR(INT_VECT)						void INT_VECT(void) __attribute__ ((signal,used));\
 														void INT_VECT(void)
@@ -109,7 +109,7 @@ void MCAL_TIMER0_SetPWMDutyCycle(TIMER0Configuration_t* TIMER0_Config,uint8_t Du
 * Define indexes for the global pointer to func for ISR *
 *********************************************************/
 #define TIMER0_CTC_VECTOR_ID		0
-#define TIMER2_OVF_VECTOR_ID		1
+#define TIMER0_OVF_VECTOR_ID		1
 
 
 

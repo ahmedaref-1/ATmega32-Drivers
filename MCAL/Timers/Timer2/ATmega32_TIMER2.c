@@ -12,13 +12,21 @@
 #include "ATmega32_TIMER2.h"
 
 
+/******************************************
+ *                                        *
+ *     GLOBAL VARIABLES DEFINITION        *
+ * 										  *
+ ******************************************/
+void (*GPtr_TIMER2_IRQCallBack[2])(void) = {NULL};
+uint16_t Timer2NumberOfOverflowOccurence;
+TIMER2Configuration_t G_Timer2Configuration;
+
+
 /*********************************************
  *                                           *
  *         IRQ HANDLERS DEFINITION           *
  * 							    			 *
- *********************************************/
-void (*GPtr_TIMER2_IRQCallBack[2])(void) = {NULL};
-	
+ *********************************************/	
 ISR(TIMER2_CTC_IRQHandler) {
 	if (GPtr_TIMER2_IRQCallBack[TIMER2_CTC_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
@@ -30,6 +38,7 @@ ISR(TIMER2_OVF_IRQHandler) {
 	if (GPtr_TIMER2_IRQCallBack[TIMER2_OVF_VECTOR_ID] != NULL) {
 		//Call Back C function() which will be called once IRQ happen
 		GPtr_TIMER2_IRQCallBack[TIMER2_OVF_VECTOR_ID]();
+		Timer2NumberOfOverflowOccurence++;
 	}
 }
 /******************************************
@@ -38,7 +47,7 @@ ISR(TIMER2_OVF_IRQHandler) {
  * 										  *
  ******************************************/
 void MCAL_TIMER2_Init(TIMER2Configuration_t* TIMER2_Config){
-		
+		G_Timer2Configuration = *TIMER2_Config;
 	// 1. Select Timer Mode
 	switch(TIMER2_Config->Timer2Mode){
 		case(TIMER2_MODE_NORMAL):
@@ -76,7 +85,7 @@ void MCAL_TIMER2_Init(TIMER2Configuration_t* TIMER2_Config){
 	}
 	
 	if ((TIMER2_Config->Timer2Mode != TIMER2_MODE_CTC) && (TIMER2_Config->Timer2Mode != TIMER2_MODE_NORMAL))
-		SET_BIT(OCR2,3);    //Configure OC0 (PINB3) as Output
+		GPIOD->DDR.bits.DD7 = HIGH;    //Configure OC2 (PIND7) as Output
 		
 	// 2. Select Clock Source
 	switch(TIMER2_Config->Timer2ClockSource){
@@ -105,19 +114,7 @@ void MCAL_TIMER2_Init(TIMER2Configuration_t* TIMER2_Config){
 			TCCR2->CS21 = LOW;
 			TCCR2->CS22 = HIGH;
 		break;
-		case(TIMER2_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE):
-			TCCR2->CS20 = LOW;
-			TCCR2->CS21 = HIGH;
-			TCCR2->CS22 = HIGH;
-		break;
-		case(TIMER2_CLOCK_SOURCE_EXTERNAL_RISING_EDGE):
-			TCCR2->CS20 = HIGH;
-			TCCR2->CS21 = HIGH;
-			TCCR2->CS22 = HIGH;
-		break;
 	}
-	if ((TIMER2_Config->Timer2ClockSource == TIMER2_CLOCK_SOURCE_EXTERNAL_RISING_EDGE) && (TIMER2_Config->Timer2ClockSource == TIMER2_CLOCK_SOURCE_EXTERNAL_FALLING_EDGE))
-		SET_BIT(OCR2,0);  //Configure T0 (PINB0) as Input
 	
 	// 3. Enable Or Disable IRQ
 	switch(TIMER2_Config->Timer2IRQEnable){
@@ -155,18 +152,26 @@ void MCAL_TIMER2_SetCounterValue(uint8_t u8_TicksNumber){
 	TCNT2 = u8_TicksNumber;
 }
 
+void MCAL_TIMER2_GetOverflowCount(uint16_t* TicksNumber){
+	*TicksNumber = Timer2NumberOfOverflowOccurence;
+}
+
+void MCAL_TIMER2_SetOverflowCount(uint16_t u8_TicksNumber){
+	Timer2NumberOfOverflowOccurence = Timer2NumberOfOverflowOccurence;
+}
+
 void MCAL_TIMER2_GetCompareValue(uint8_t* TicksNumber){
 	 *TicksNumber = OCR2;
 }
 void MCAL_TIMER2_SetCompareValue(uint8_t  u8TicksNumber){
 	OCR2 = u8TicksNumber;
 }
-void MCAL_TIMER2_SetPWMDutyCycle(TIMER2Configuration_t* TIMER2_Config,uint8_t Duty_Cycle){
-		if(TIMER2_Config->Timer2Mode == TIMER2_MODE_Fast_PWM_Noninverting)
+void MCAL_TIMER2_SetPWMDutyCycle(uint8_t Duty_Cycle){
+		if(G_Timer2Configuration.Timer2Mode == TIMER2_MODE_Fast_PWM_Noninverting)
 		{
 			OCR2 = Duty_Cycle;
 		}
-		else if(TIMER2_Config->Timer2Mode == TIMER2_MODE_Fast_PWM_Inverting)
+		else if(G_Timer2Configuration.Timer2Mode == TIMER2_MODE_Fast_PWM_Inverting)
 		{
 			OCR2 = (uint8_t)(255 - Duty_Cycle);
 		}
