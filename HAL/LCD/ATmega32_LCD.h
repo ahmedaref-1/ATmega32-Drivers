@@ -77,13 +77,13 @@
  *   APIs SUPPORTED BY THE "LCD DRIVER"   *
  * 										  *
  * ****************************************/
-void HAL_LCD_IsBusy(void);
+void HAL_LCD_GPIOINIT(void);
 void HAL_LCD_kick(void);
 void HAL_LCD_SendCommand(uint8_t command);
 void HAL_LCD_Init(void);
 void HAL_LCD_DisplayCharacter(uint8_t character);
-void HAL_LCD_DisplayString(uint8_t *The_char);
-void HAL_LCD_SetPosition(uint8_t line ,uint8_t pos);
+void HAL_LCD_DisplayString(uint8_t *string);
+void HAL_LCD_SetPosition(uint8_t row ,uint8_t column);
 void HAL_LCD_ClearScreen(void);
 void HAL_LCD_DisplayInteger(uint32_t number);
 void HAL_LCD_DispalyReal(float32_t number);
