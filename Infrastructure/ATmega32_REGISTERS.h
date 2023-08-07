@@ -112,7 +112,7 @@ typedef struct
  **********************************************************/
 // EXTI MCU Control Register (EXTI_MCUCR)
 typedef union{
-	 vuint8_t MCUCR;
+	 vuint8_t MCUCR_ALLBITS;
 	struct{
 		vuint8_t ISC00	:1;
 		vuint8_t ISC01	:1;
@@ -127,7 +127,7 @@ typedef union{
 
 // EXTI MCU Control and Status Register (EXTI_MCUCSR) 
 typedef union{
-	vuint8_t MCUCSR;
+	vuint8_t MCUCSR_ALLBITS;
 	struct{
 		vuint8_t PORF		:1;
 		vuint8_t EXTRF		:1;
@@ -142,7 +142,7 @@ typedef union{
 
 // EXTI General Interrupt Control Register (EXTI_GICR)
 typedef union{
-	vuint8_t GICR;
+	vuint8_t GICR_ALLBITS;
 	struct{
 		vuint8_t IVCE		:1;
 		vuint8_t IVSEL		:1;
@@ -155,7 +155,7 @@ typedef union{
 
 // EXTI General Interrupt Flag Register (EXTI_GIFR)
 typedef union{
-	vuint8_t GIFR;
+	vuint8_t GIFR_ALLBITS;
 	struct{
 		vuint8_t reserved	:5;
 		vuint8_t INTF2		:1;
@@ -170,7 +170,7 @@ typedef union{
  **********************************************************/
 //Timer/Counter Interrupt Mask Register (TIMSK)
 typedef union{
-	vuint8_t TIMSK;
+	vuint8_t TIMSK_ALLBITS;
 	struct{
 		vuint8_t TOIE0		:1;
 		vuint8_t OCIE0		:1;
@@ -185,7 +185,7 @@ typedef union{
 
 //Timer/Counter Interrupt Flag Register (TIFR)
 typedef union{
-	vuint8_t TIFR;
+	vuint8_t TIFR_ALLBITS;
 	struct{
 		vuint8_t TOV0		:1;
 		vuint8_t OCF0		:1;
@@ -201,7 +201,7 @@ typedef union{
 /********** TIMER 0 REGISTERS ***************/
 //Timer/Counter0 Control Register (TCCR0)
 typedef union{
-	vuint8_t TCCR0;
+	vuint8_t TCCR0_ALLBITS;
 	struct{
 		vuint8_t CS00		:1;
 		vuint8_t CS01		:1;
@@ -220,7 +220,7 @@ typedef union{
 /********** TIMER 1 REGISTERS ***************/
 //Timer/Counter1 Control Register A (TCCR1A)
 typedef union{
-	vuint8_t TCCR1A;
+	vuint8_t TCCR1A_ALLBITS;
 	struct{
 		vuint8_t WGM10		:1;
 		vuint8_t WGM11		:1;
@@ -235,7 +235,7 @@ typedef union{
 
 //Timer/Counter1 Control Register B (TCCR1B)
 typedef union{
-	vuint8_t TCCR1B;
+	vuint8_t TCCR1B_ALLBITS;
 	struct{
 		vuint8_t CS10			:1;
 		vuint8_t CS11			:1;
@@ -264,7 +264,7 @@ typedef union{
 /********** TIMER 2 REGISTERS ***************/
 //Timer/Counter2 Control Register (TCCR2)
 typedef union{
-	vuint8_t TCCR2;
+	vuint8_t TCCR2_ALLBITS;
 	struct{
 		vuint8_t CS20		:1;
 		vuint8_t CS21		:1;
@@ -283,7 +283,7 @@ typedef union{
 /********* WATCHDOG TIMER REGISTER ***************/
 //Watchdog Timer Control Register (WDTCR) 
 typedef union{
-	vuint8_t WDTCR_ALL;
+	vuint8_t WDTCR_ALLBITS;
 	struct{
 		vuint8_t WDP0			:1;
 		vuint8_t WDP1			:1;
