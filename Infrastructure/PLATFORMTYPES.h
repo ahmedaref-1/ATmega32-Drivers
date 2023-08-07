@@ -104,4 +104,5 @@ typedef enum
 #define HIGH		(0b1)
 #define LOW			(0b0)
 
+
 #endif /* PLATFORMTYPES_H_ */
