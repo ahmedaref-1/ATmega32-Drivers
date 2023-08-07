@@ -33,5 +33,4 @@
 #define ASSIGN_HIGH_NIB(reg)		((reg)=((value<<4)|(reg&0X0F)))
 
 
-
 #endif /* COMMONMACROS_H_ */
